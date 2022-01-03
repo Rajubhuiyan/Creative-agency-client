@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import webLogo from '../../../images/icons/service1.png';
 import grapicLogo from '../../../images/icons/service2.png';
 import webDevLg from '../../../images/icons/service3.png';
@@ -15,6 +15,7 @@ const services = [
 
 
 const ServiceLists = () => {
+    
     return (
         <div>
             <Grid spacing={2} container>

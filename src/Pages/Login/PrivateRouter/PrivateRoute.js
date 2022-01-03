@@ -6,12 +6,11 @@ const PrivateRoute = ({ children }) => {
     const { user } = useAuth();
     const location = useLocation();
 
-    if (user !== null) {
-       return children;
-    }
 
     return (
-        <Navigate to="/login" state={{ from: location }} />
+        <>
+            {user?.email ? children : <Navigate to="/login" state={{ from: location }} />}
+        </>
     );
 };
 

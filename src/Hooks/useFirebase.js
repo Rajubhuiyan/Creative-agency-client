@@ -14,7 +14,7 @@ const useFirebase = () => {
 
     const auth = getAuth();
 
-    
+
     const handleGoogleSignIn = (location, navigate) => {
         const provider = new GoogleAuthProvider();
 
@@ -26,7 +26,8 @@ const useFirebase = () => {
                 // The signed-in user info.
                 const user = result.user;
                 SetAuthError('');
-                setLoginUser({displayName: user.displayName, email: user.email, photoURL: user.photoURL});
+                setLoginUser({ displayName: user.displayName, email: user.email, photoURL: user.photoURL });
+                saveUserToDb(user.displayName, user.email, user.photoURL)
                 const destination = location?.state?.from || '/';
                 navigate(destination);
                 // ...
@@ -45,15 +46,17 @@ const useFirebase = () => {
 
 
 
+
+
     useEffect(() => {
 
         const unsubscribed = onAuthStateChanged(auth, (user) => {
 
             if (user) {
-                const displayName= user.displayName;
+                const displayName = user.displayName;
                 const email = user.email;
                 const img = user.photoURL;
-                setUser({displayName, email, img});
+                setUser({ displayName, email, img });
                 getIdToken(user)
                     .then(idToken => {
                         setToken(idToken);
@@ -69,19 +72,33 @@ const useFirebase = () => {
     const handleSignOut = () => {
         signOut(auth).then(() => {
             setUser(null);
-            setToken(null);
+            setToken('');
         }).catch((error) => {
             // An error happened.
         });
     }
 
+    const saveUserToDb = (name, userEmail, image) => {
+        const displayName = name;
+        const email = userEmail;
+        const img = image;
+
+        fetch(`http://localhost:5000/users?email=${userEmail}`, {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ displayName: displayName, email: email, img: img })
+        })
+            .then(res => res.json())
+            .then(data => console.log(data))
+            .catch(err => console.error(err))
+    }
 
     return {
         handleGoogleSignIn,
         handleSignOut,
         user,
         token,
-        authError
+        authError,
     }
 };
 

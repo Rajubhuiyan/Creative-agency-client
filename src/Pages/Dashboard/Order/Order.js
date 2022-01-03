@@ -9,7 +9,7 @@ const Order = () => {
         <Box>
             <Container>
                 <Box >
-                    <from>
+                    <form>
                         <TextField
                             sx={{ width: { xs: '80%', md: '60%', }, mb: 3, backgroundColor: 'white' }}
                             id="outlined-textarea"
@@ -50,7 +50,7 @@ const Order = () => {
                         />
                         <br />
                         <button type="submit" className="global-btn">Submit</button>
-                    </from>
+                    </form>
                 </Box>
             </Container>
         </Box>
