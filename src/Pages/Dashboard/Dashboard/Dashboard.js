@@ -1,38 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import { Typography } from '@mui/material';
+import { Box } from '@mui/system';
+import React, {  useState } from 'react';
 import useAuth from '../../../Hooks/useAuth';
 import Loader from '../../Loader/Loader';
-import Navbar from '../../Shared/Navbar/Navbar';
-import Admin from '../Admin/Admin';
-import Customer from '../Customer/Customer';
 
-const Dashboard = () => {
-    const { user } = useAuth();
-    const [isAdmin, setIsAdmin] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
-    useEffect(() => {
-        fetch(`http://localhost:5000/isAdmin?email=${user?.email}`)
-            .then(res => res.json())
-            .then(data => {
-                if (data?.isAdmin) {
-                    setIsAdmin(true);
-                }
-            })
-            .catch(err => console.error(err))
-            .finally(() => {
-                setIsLoading(false);
-            })
-    }, [user?.email])
+const Dashboard = ({children}) => {
+    const {isAdmin} = useAuth();
+    const [isLoading, setIsLoading] = useState(false);
 
 
     return (
         <div>
             {isLoading ? <Loader /> :
                 <>
-                    <Navbar />
-                    {isAdmin ?
-                        <Admin />
+                    {isAdmin === true ?
+                        children
                         :
-                        <Customer />}
+                        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
+                            <Box>
+                                <Typography variant="h2">Unauthorized Access</Typography>
+                            </Box>
+                        </Box>
+                    }
                 </>
             }
 

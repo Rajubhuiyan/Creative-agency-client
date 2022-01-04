@@ -18,7 +18,7 @@ const Review = () => {
         newInfo.append('email', user?.email);
         newInfo.append('image', image);
 
-        fetch('http://localhost:5000/saveReview', {
+        fetch('https://creative-agency00.herokuapp.com/saveReview', {
             method: 'POST',
             body: newInfo
         })

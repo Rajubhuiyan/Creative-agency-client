@@ -11,6 +11,7 @@ const useFirebase = () => {
     const [user, setUser] = useState(null);
     const [token, setToken] = useState('');
     const [authError, SetAuthError] = useState('');
+    const [isAdmin, setIsAdmin] = useState(false);
 
     const auth = getAuth();
 
@@ -83,7 +84,7 @@ const useFirebase = () => {
         const email = userEmail;
         const img = image;
 
-        fetch(`http://localhost:5000/users?email=${userEmail}`, {
+        fetch(`https://creative-agency00.herokuapp.com/users?email=${userEmail}`, {
             method: 'POST',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify({ displayName: displayName, email: email, img: img })
@@ -91,7 +92,29 @@ const useFirebase = () => {
             .then(res => res.json())
             .then(data => console.log(data))
             .catch(err => console.error(err))
-    }
+    };
+
+
+
+
+    
+    
+    useEffect(() => {
+        fetch(`https://creative-agency00.herokuapp.com/isAdmin?email=${user?.email}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data?.isAdmin) {
+                    setIsAdmin(true);
+                }
+            })
+            .catch(err => console.error(err))
+            .finally(() => {
+            })
+    }, [user?.email])
+
+
+
+
 
     return {
         handleGoogleSignIn,
@@ -99,6 +122,7 @@ const useFirebase = () => {
         user,
         token,
         authError,
+        isAdmin
     }
 };
 

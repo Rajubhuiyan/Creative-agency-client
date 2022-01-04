@@ -10,7 +10,7 @@ const MakeAdmin = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(email);
-        fetch(`http://localhost:5000/makeAdmin?email=${email}`, {
+        fetch(`https://creative-agency00.herokuapp.com/makeAdmin?email=${email}`, {
             method: 'PUT'
         })
             .then(res => res.json())

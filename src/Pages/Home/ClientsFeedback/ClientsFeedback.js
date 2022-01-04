@@ -17,13 +17,15 @@ const ClientsFeedback = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        fetch('http://localhost:5000/getReviews')
+
+        fetch('https://creative-agency00.herokuapp.com/getReviews')
             .then(res => res.json())
             .then(data => data && setFeedbackData(data))
             .catch(err => console.error(err))
             .finally(() => {
                 setIsLoading(false);
             })
+            
     }, [])
 
     return (

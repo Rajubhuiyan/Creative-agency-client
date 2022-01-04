@@ -13,7 +13,7 @@ const AdminAddService = () => {
         newInfo.append('description', description);
         newInfo.append('image', file);
 
-        fetch('http://localhost:5000/saveServices/', {
+        fetch('https://creative-agency00.herokuapp.com/saveServices/', {
             method: 'POST',
             body: newInfo
         })

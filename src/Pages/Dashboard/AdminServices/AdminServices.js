@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -6,86 +6,72 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Button from '@mui/material/Button';
+import SecondLoader from '../../SecondLoader/SecondLoader';
+import StatusChange from './StatusChange';
+import { Alert, Box } from '@mui/material';
 const AdminServices = () => {
-    const check = [
-        { name: 'Raju Ahmed Bhuiyan', email: 'Raju@gmail.com', service: 'Graphic Design', details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ', status: 'pending' }
-    ];
 
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event) => {
-      setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-      setAnchorEl(null);
-    };
 
     const [serviceData, setServiceData] = useState([]);
-    const [selected, setSelected] = useState('pending');
+
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(false)
+    const [success, setSuccess] = useState(false)
+
+
+
+    useEffect(() => {
+        fetch('https://creative-agency00.herokuapp.com/getAllOrders')
+            .then(res => res.json())
+            .then(data => { setServiceData(data) })
+            .catch(err => { setError(true); setSuccess(false) })
+            .finally(() => { setIsLoading(false) })
+    }, []);
+
+
+
+
     return (
         <div>
-            <TableContainer sx={{ maxWidth: { xs: '80vw', sm: '90vw', md: '70vw' } }} component={Paper}>
-                <Table sx={{ minWidth: 550 }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Name</TableCell>
-                            <TableCell align="right">Email ID</TableCell>
-                            <TableCell align="right">Service</TableCell>
-                            <TableCell align="right">Project Details</TableCell>
-                            <TableCell align="right">Status</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {check.map((row) => (
-                            <TableRow
-                                key={row.name}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <TableCell component="th" scope="row">
-                                    {row.name}
-                                </TableCell>
-                                <TableCell align="right">{row.email}</TableCell>
-                                <TableCell align="right">{row.service}</TableCell>
-                                <TableCell align="right">{row.details}</TableCell>
-                                <TableCell align="right">
+            {
+                isLoading ? <SecondLoader />
+                    :
+                    <Box>
+                        {error && <Alert severity="error">Something Wrong Try Again</Alert>}
+                        {success && <Alert severity="success">Succes</Alert>}
+                        <TableContainer sx={{ maxWidth: { xs: '80vw', sm: '90vw', md: '70vw' } }} component={Paper}>
 
-
-                                    <div>
-                                        <Button
-                                            id="basic-button"
-                                            aria-controls={open ? 'basic-menu' : undefined}
-                                            aria-haspopup="true"
-                                            aria-expanded={open ? 'true' : undefined}
-                                            onClick={handleClick}
+                            <Table sx={{ minWidth: 550 }} aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Name</TableCell>
+                                        <TableCell align="right">Email ID</TableCell>
+                                        <TableCell align="right">Service</TableCell>
+                                        <TableCell align="right">Status</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {serviceData.map((row) => (
+                                        <TableRow
+                                            key={row?._id}
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
-                                            {row?.status}
-                                        </Button>
-                                        <Menu
-                                            id="basic-menu"
-                                            anchorEl={anchorEl}
-                                            open={open}
-                                            onClose={handleClose}
-                                            MenuListProps={{
-                                                'aria-labelledby': 'basic-button',
-                                            }}
-                                        >
-                                            <MenuItem onClick={() => {handleClose();setSelected('pending')}}>Pending</MenuItem>
-                                            <MenuItem onClick={() => {handleClose();setSelected('done')}}>Done</MenuItem>
-                                            <MenuItem onClick={() => {handleClose();setSelected('on going')}}>On Going</MenuItem>
-                                        </Menu>
-                                    </div>
-
-
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                                            <TableCell component="th" scope="row">
+                                                {row.name}
+                                            </TableCell>
+                                            <TableCell align="right">{row?.email?.toUpperCase()}</TableCell>
+                                            <TableCell align="right">{row?.product?.title?.toUpperCase()}</TableCell>
+                                            <TableCell align="right">
+                                                <StatusChange setError={setError} setSuccess={setSuccess} row={row} />
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Box>
+            }
         </div>
     );
 };

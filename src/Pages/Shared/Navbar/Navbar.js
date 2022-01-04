@@ -11,7 +11,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import logo from '../../../images/logos/logo.png'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import useAuth from '../../../Hooks/useAuth';
 
 const Navbar = () => {
@@ -31,7 +31,7 @@ const Navbar = () => {
         setAnchorElUser(null);
     };
 
-    const { user, handleSignOut } = useAuth();
+    const { user, handleSignOut, isAdmin } = useAuth();
 
     const navigate = useNavigate();
 
@@ -79,24 +79,45 @@ const Navbar = () => {
                                 }}
                             >
 
-                                <MenuItem onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center"> Home </Typography>
+                                <NavLink to="/" style={{ textDecoration: 'none' }}>
+                                    <MenuItem onClick={handleCloseNavMenu}>
+                                        <Typography textAlign="center"> Home </Typography>
+                                    </MenuItem>
+                                </NavLink>
+                                <a target="_blank" style={{ textDecoration: 'none' }} href="https://github.com/Rajubhuiyan">
+                                    <MenuItem onClick={handleCloseNavMenu}>
+                                        <Typography textAlign="center"> Our Portfolio </Typography>
+                                    </MenuItem>
+                                </a>
+                                <NavLink to="/" style={{ textDecoration: 'none' }}>
+                                    <MenuItem onClick={handleCloseNavMenu}>
+                                        <Typography textAlign="center"> Our Team </Typography>
+                                    </MenuItem>
+                                </NavLink>
+                                <NavLink to="/" style={{ textDecoration: 'none' }}>
+                                    <MenuItem onClick={handleCloseNavMenu}>
+                                        <Typography textAlign="center"> Contact Us </Typography>
+                                    </MenuItem>
+                                </NavLink>
+                                {isAdmin ?
+                                <NavLink style={{ textDecoration: 'none' }} to="/dashboard">
+                                    <MenuItem onClick={handleCloseNavMenu}>
+                                    <Typography textAlign="center"> Dashboard </Typography>
                                 </MenuItem>
-                                <MenuItem onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center"> Our Portfolio </Typography>
+                                </NavLink>
+                                :
+                                <NavLink style={{ textDecoration: 'none', }} to="/dashboard/customer">
+                                    <MenuItem onClick={handleCloseNavMenu}>
+                                    <Typography textAlign="center"> Dashboard </Typography>
                                 </MenuItem>
-                                <MenuItem onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center"> Our Team </Typography>
-                                </MenuItem>
-                                <MenuItem onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center"> Contact Us </Typography>
-                                </MenuItem>
-                                {user?.email ? <MenuItem onClick={() => {handleCloseNavMenu(); handleSignOut()}}>
-                                    <Typography textAlign="center"> Log Out </Typography>
+                                </NavLink>
+                            }
+                                {user?.email ? <MenuItem onClick={() => { handleCloseNavMenu(); handleSignOut() }}>
+                                    <Typography sx={{color:'blue'}} textAlign="center"> Log Out </Typography>
                                 </MenuItem> :
-                                <MenuItem onClick={() => {handleCloseNavMenu();navigate('/login/')}}>
-                                    <Typography textAlign="center"> Log In </Typography>
-                                </MenuItem>}
+                                    <MenuItem onClick={() => { handleCloseNavMenu(); navigate('/login/') }}>
+                                        <Typography sx={{color:'blue'}} textAlign="center"> Log In </Typography>
+                                    </MenuItem>}
                             </Menu>
                         </Box>
                         <Typography
@@ -108,18 +129,22 @@ const Navbar = () => {
                             <Link style={{ textDecoration: 'none' }} to="/"><img style={{ width: '100%', height: '50px' }} src={logo} alt="" /></Link>
                         </Typography>
                         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'end' }}>
-                            <Button
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'black', display: 'block', }}
-                            >
-                                Home
-                            </Button>
-                            <Button
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'black', display: 'block', }}
-                            >
-                                Our Portfolio
-                            </Button>
+                            <NavLink style={{ textDecoration: 'none' }} to="/">
+                                <Button
+                                    onClick={handleCloseNavMenu}
+                                    sx={{ my: 2, color: 'black', display: 'block', }}
+                                >
+                                    Home
+                                </Button>
+                            </NavLink>
+                            <a target="_blank" style={{ textDecoration: 'none' }} href="https://github.com/Rajubhuiyan">
+                                <Button
+                                    onClick={handleCloseNavMenu}
+                                    sx={{ my: 2, color: 'black', display: 'block', }}
+                                >
+                                    Our Portfolio
+                                </Button>
+                            </a>
                             <Button
                                 onClick={handleCloseNavMenu}
                                 sx={{ my: 2, color: 'black', display: 'block', }}
@@ -132,26 +157,45 @@ const Navbar = () => {
                             >
                                 Contact Us
                             </Button>
-                            {user?.email ? 
-                            <Button
-                                onClick={() => {handleCloseNavMenu();handleSignOut()}}
-                                sx={{ my: 2, color: 'black', display: 'block', }}
-                            >
-                                Log Out
-                            </Button> : 
-                            
-                            <Button
-                                onClick={() => {handleCloseNavMenu();navigate('/login/')}}
-                                sx={{ my: 2, color: 'black', display: 'block', }}
-                            >
-                                Log In
-                            </Button>}
+                            {isAdmin ?
+                                <NavLink style={{ textDecoration: 'none' }} to="/dashboard">
+                                    <Button
+                                        onClick={handleCloseNavMenu}
+                                        sx={{ my: 2, color: 'black', display: 'block', }}
+                                    >
+                                        Dashboard
+                                    </Button>
+                                </NavLink>
+                                :
+                                <NavLink style={{ textDecoration: 'none' }} to="/dashboard/customer">
+                                    <Button
+                                        onClick={handleCloseNavMenu}
+                                        sx={{ my: 2, color: 'black', display: 'block', }}
+                                    >
+                                        Dashboard
+                                    </Button>
+                                </NavLink>
+                            }
+                            {user?.email ?
+                                <Button
+                                    onClick={() => { handleCloseNavMenu(); handleSignOut() }}
+                                    sx={{ my: 2, color: 'black', display: 'block', }}
+                                >
+                                    Log Out
+                                </Button> :
+
+                                <Button
+                                    onClick={() => { handleCloseNavMenu(); navigate('/login/') }}
+                                    sx={{ my: 2, color: 'black', display: 'block', }}
+                                >
+                                    Log In
+                                </Button>}
                         </Box>
 
                         <Box sx={{ flexGrow: 0 }}>
 
                             <IconButton sx={{ p: 0 }}>
-                                {user? <Avatar alt="Remy Sharp" src={user?.img} /> : ''}
+                                {user ? <Avatar alt="Remy Sharp" src={user?.img} /> : ''}
                             </IconButton>
                             <Menu
                                 sx={{ mt: '45px' }}
