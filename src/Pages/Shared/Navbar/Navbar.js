@@ -58,7 +58,7 @@ const Navbar = () => {
                                 onClick={handleOpenNavMenu}
                                 color="inherit"
                             >
-                                <MenuIcon />
+                                <MenuIcon sx={{color: 'black'}} />
                             </IconButton>
                             <Menu
                                 id="menu-appbar"
@@ -84,7 +84,7 @@ const Navbar = () => {
                                         <Typography textAlign="center"> Home </Typography>
                                     </MenuItem>
                                 </NavLink>
-                                <a target="_blank" style={{ textDecoration: 'none' }} href="https://github.com/Rajubhuiyan">
+                                <a target="_blank" rel="noreferrer" style={{ textDecoration: 'none' }} href="https://github.com/Rajubhuiyan">
                                     <MenuItem onClick={handleCloseNavMenu}>
                                         <Typography textAlign="center"> Our Portfolio </Typography>
                                     </MenuItem>
@@ -99,24 +99,25 @@ const Navbar = () => {
                                         <Typography textAlign="center"> Contact Us </Typography>
                                     </MenuItem>
                                 </NavLink>
-                                {isAdmin ?
-                                <NavLink style={{ textDecoration: 'none' }} to="/dashboard">
-                                    <MenuItem onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center"> Dashboard </Typography>
-                                </MenuItem>
-                                </NavLink>
-                                :
-                                <NavLink style={{ textDecoration: 'none', }} to="/dashboard/customer">
-                                    <MenuItem onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center"> Dashboard </Typography>
-                                </MenuItem>
-                                </NavLink>
-                            }
+                                {user?.email ? isAdmin ?
+                                    <NavLink style={{ textDecoration: 'none' }} to="/dashboard">
+                                        <MenuItem onClick={handleCloseNavMenu}>
+                                            <Typography textAlign="center"> Dashboard </Typography>
+                                        </MenuItem>
+                                    </NavLink>
+                                    :
+                                    <NavLink style={{ textDecoration: 'none', }} to="/customer">
+                                        <MenuItem onClick={handleCloseNavMenu}>
+                                            <Typography textAlign="center"> Dashboard </Typography>
+                                        </MenuItem>
+                                    </NavLink>
+                                    : ''
+                                }
                                 {user?.email ? <MenuItem onClick={() => { handleCloseNavMenu(); handleSignOut() }}>
-                                    <Typography sx={{color:'blue'}} textAlign="center"> Log Out </Typography>
+                                    <Typography sx={{ color: 'blue' }} textAlign="center"> Log Out </Typography>
                                 </MenuItem> :
                                     <MenuItem onClick={() => { handleCloseNavMenu(); navigate('/login/') }}>
-                                        <Typography sx={{color:'blue'}} textAlign="center"> Log In </Typography>
+                                        <Typography sx={{ color: 'blue' }} textAlign="center"> Log In </Typography>
                                     </MenuItem>}
                             </Menu>
                         </Box>
@@ -137,7 +138,7 @@ const Navbar = () => {
                                     Home
                                 </Button>
                             </NavLink>
-                            <a target="_blank" style={{ textDecoration: 'none' }} href="https://github.com/Rajubhuiyan">
+                            <a target="_blank" rel="noreferrer" style={{ textDecoration: 'none' }} href="https://github.com/Rajubhuiyan">
                                 <Button
                                     onClick={handleCloseNavMenu}
                                     sx={{ my: 2, color: 'black', display: 'block', }}
@@ -157,7 +158,7 @@ const Navbar = () => {
                             >
                                 Contact Us
                             </Button>
-                            {isAdmin ?
+                            {user?.email ? isAdmin ?
                                 <NavLink style={{ textDecoration: 'none' }} to="/dashboard">
                                     <Button
                                         onClick={handleCloseNavMenu}
@@ -167,7 +168,7 @@ const Navbar = () => {
                                     </Button>
                                 </NavLink>
                                 :
-                                <NavLink style={{ textDecoration: 'none' }} to="/dashboard/customer">
+                                <NavLink style={{ textDecoration: 'none' }} to="/customer">
                                     <Button
                                         onClick={handleCloseNavMenu}
                                         sx={{ my: 2, color: 'black', display: 'block', }}
@@ -175,6 +176,7 @@ const Navbar = () => {
                                         Dashboard
                                     </Button>
                                 </NavLink>
+                                :''
                             }
                             {user?.email ?
                                 <Button

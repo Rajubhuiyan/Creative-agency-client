@@ -74,6 +74,7 @@ const useFirebase = () => {
         signOut(auth).then(() => {
             setUser(null);
             setToken('');
+            isAdmin(false);
         }).catch((error) => {
             // An error happened.
         });
@@ -104,8 +105,9 @@ const useFirebase = () => {
             .then(res => res.json())
             .then(data => {
                 if (data?.isAdmin) {
-                    setIsAdmin(true);
+                   return setIsAdmin(true);
                 }
+                setIsAdmin(false);
             })
             .catch(err => console.error(err))
             .finally(() => {
@@ -122,7 +124,8 @@ const useFirebase = () => {
         user,
         token,
         authError,
-        isAdmin
+        isAdmin,
+        auth
     }
 };
 

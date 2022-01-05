@@ -20,7 +20,7 @@ const ClientsFeedback = () => {
 
         fetch('https://creative-agency00.herokuapp.com/getReviews')
             .then(res => res.json())
-            .then(data => data && setFeedbackData(data))
+            .then(data => data && setFeedbackData(data.reverse()))
             .catch(err => console.error(err))
             .finally(() => {
                 setIsLoading(false);

@@ -18,8 +18,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login/" element={<Login />} />
             <Route path="/dashboard/" element={<PrivateRoute><Dashboard><Admin/></Dashboard></PrivateRoute>}/>
-            <Route path="/dashboard/customer/:serviceId" element={<PrivateRoute><Customer/></PrivateRoute>}/>
-            <Route path="/dashboard/customer/" element={<PrivateRoute><Customer/></PrivateRoute>}/>
+            <Route path="/customer/:serviceId" element={<PrivateRoute><Customer/></PrivateRoute>}/>
+            <Route path="/customer/" element={<PrivateRoute><Customer/></PrivateRoute>}/>
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Router>

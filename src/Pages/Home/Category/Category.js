@@ -6,8 +6,8 @@ import './Category.css';
 const Category = ({ data }) => {
     return (
         <Grid xs={12} sm={6} md={4} item>
-            <Link style={{textDecoration: 'none', color:'black'}} to={`/dashboard/customer/${data?._id}`}>
                 <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Link style={{textDecoration: 'none', color:'black'}} to={`/customer/${data?._id}`}>
                     <Box className="category-card" sx={{ width: { xs: '360px', md: '370px', }, height: { xs: '340px', md: '340px' }, display: 'flex', justifyContent: 'center', alignItems: 'center', p: 3 }}>
                         <Box>
                             <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
@@ -23,8 +23,8 @@ const Category = ({ data }) => {
                             </Box>
                         </Box>
                     </Box>
+                    </Link>
                 </Box>
-            </Link>
         </Grid>
     );
 };

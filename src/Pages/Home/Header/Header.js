@@ -27,7 +27,7 @@ const Header = () => {
             </Box>
             <Container sx={{ mt: 9 }}>
                 <Grid container spacing={3} sx={{ display: 'flex', justifyContent: 'center' }}>
-                    {headerLogos.map(logo => <Grid key={logo.id} sm={4} md={2} item><img style={{ width: '140px', height: '50px' }} src={logo.img} alt="" /></Grid>)}
+                    {headerLogos.map(logo => <Grid key={logo.id} sm={4} md={2} item><img style={{ width: '120px', height: '40px' }} src={logo.img} alt="" /></Grid>)}
                 </Grid>
             </Container>
         </Box>
